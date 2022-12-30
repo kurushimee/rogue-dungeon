@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run the game",
+            "type": "python",
+            "request": "launch",
+            "program": "rogue.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
