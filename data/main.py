@@ -33,20 +33,39 @@ def main() -> None:
     ply_img = pg.transform.scale(ply_img, (48, 48))
     ply_x = WIDTH // 2 - ply_img.get_width() // 2
     ply_y = HEIGHT // 2 - ply_img.get_height() // 2
-    player_id = world.create_entity(
-        Player(), Position(0, 0), Sprite(ply_img, ply_x, ply_y), Velocity(-50, 0)
+    player = world.create_entity(
+        Player(), Position(0, 0), Sprite(ply_img, ply_x, ply_y), Velocity(0, 0)
     )
-    print(player_id)
+    print(player)
 
     enemy_img = pg.image.load("resources/graphics/enemy.png")
     enemy_img = pg.transform.scale(enemy_img, (48, 48))
-    enemy_id = world.create_entity(Position(-150, -150), Sprite(enemy_img))
-    print(enemy_id)
+    enemy = world.create_entity(Position(-150, -150), Sprite(enemy_img))
+    print(enemy)
 
+    speed = 3
     running = True
     while running:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_LEFT:
+                    world.component_for_entity(player, Velocity).x = -speed
+                elif event.key == pg.K_RIGHT:
+                    world.component_for_entity(player, Velocity).x = speed
+                elif event.key == pg.K_UP:
+                    world.component_for_entity(player, Velocity).y = -speed
+                elif event.key == pg.K_DOWN:
+                    world.component_for_entity(player, Velocity).y = speed
+                elif event.key == pg.K_ESCAPE:
+                    running = False
+            elif event.type == pg.KEYUP:
+                if event.key in (pg.K_LEFT, pg.K_RIGHT):
+                    world.component_for_entity(player, Velocity).x = 0
+                if event.key in (pg.K_UP, pg.K_DOWN):
+                    world.component_for_entity(player, Velocity).y = 0
+
         world.process()
+
         clock.tick(FPS)
