@@ -1,8 +1,8 @@
 import esper
 import pygame as pg
 
-from data.components import Player, Position, Sprite
-from data.processors import RenderProcessor
+from data.components import Player, Position, Sprite, Velocity
+from data.processors import MovementProcessor, RenderProcessor
 
 FPS = 60
 WIDTH = 960
@@ -10,6 +10,7 @@ HEIGHT = 540
 
 
 def add_processors(world: esper.World, screen: pg.Surface) -> None:
+    world.add_processor(MovementProcessor())
     world.add_processor(RenderProcessor(screen, (11, 7, 28)))
 
 
@@ -32,7 +33,9 @@ def main() -> None:
     ply_img = pg.transform.scale(ply_img, (48, 48))
     ply_x = WIDTH // 2 - ply_img.get_width() // 2
     ply_y = HEIGHT // 2 - ply_img.get_height() // 2
-    player_id = world.create_entity(Player(), Position(0, 0), Sprite(ply_img, ply_x, ply_y))
+    player_id = world.create_entity(
+        Player(), Position(0, 0), Sprite(ply_img, ply_x, ply_y), Velocity(-50, 0)
+    )
     print(player_id)
 
     enemy_img = pg.image.load("resources/graphics/enemy.png")
