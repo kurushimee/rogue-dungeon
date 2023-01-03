@@ -2,8 +2,6 @@ import esper
 
 from data.components import Position, Velocity
 
-FPS = 60
-
 
 class MovementProcessor(esper.Processor):
     def process(self) -> None:

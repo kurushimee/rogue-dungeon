@@ -1,0 +1,2 @@
+class Chase:
+    pass

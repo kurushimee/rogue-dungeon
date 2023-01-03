@@ -1,7 +1,5 @@
-from dataclasses import dataclass as component
+from data.engine import Vector
 
 
-@component
-class Position:
-    x: int = 0
-    y: int = 0
+class Position(Vector):
+    pass
