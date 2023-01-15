@@ -1,8 +1,13 @@
 import esper
 import pygame as pg
 
+from data.scripts.engine import utils
 from data.components import Chase, Player, Position, Speed, Sprite, Velocity
-from data.processors import ChaseProcessor, MovementProcessor, RenderProcessor
+from data.components.interaction import Interactable
+from data.processors import ChaseProcessor, InteractProcessor, MovementProcessor, RenderProcessor
+from data.scripts.gameplay.actions import TestAction
+from data.scripts.gameplay import interaction
+from data.scripts.gameplay import movement
 
 FPS = 60
 WIDTH = 960
@@ -11,6 +16,7 @@ HEIGHT = 540
 
 def add_processors(world: esper.World, screen: pg.Surface) -> None:
     world.add_processor(ChaseProcessor())
+    world.add_processor(InteractProcessor())
     world.add_processor(MovementProcessor())
     world.add_processor(RenderProcessor(screen, (11, 7, 28)))
 
@@ -22,21 +28,22 @@ def build_world(screen: pg.Surface) -> esper.World:
 
 
 def create_player(world: esper.World) -> int:
-    ply_img = pg.image.load("resources/graphics/player.png")
-    ply_img = pg.transform.scale(ply_img, (48, 48))
-    ply_x = WIDTH // 2 - ply_img.get_width() // 2
-    ply_y = HEIGHT // 2 - ply_img.get_height() // 2
+    img = utils.load_sprite("player.png")
+    x = WIDTH // 2 - img.get_width() // 2
+    y = HEIGHT // 2 - img.get_height() // 2
     return world.create_entity(
-        Player(), Position(0, 0), Speed(3), Sprite(ply_img, ply_x, ply_y), Velocity(0, 0)
+        Player(), Position(0, 0), Speed(3), Sprite(img, x, y), Velocity(0, 0)
     )
 
 
 def create_enemy(world: esper.World) -> int:
-    enemy_img = pg.image.load("resources/graphics/enemy.png")
-    enemy_img = pg.transform.scale(enemy_img, (48, 48))
-    return world.create_entity(
-        Chase(), Position(-200, -150), Speed(1), Sprite(enemy_img), Velocity(0, 0)
-    )
+    img = utils.load_sprite("enemy.png")
+    return world.create_entity(Chase(), Position(-200, -150), Speed(1), Sprite(img), Velocity(0, 0))
+
+
+def create_exit_button(world: esper.World) -> int:
+    img = utils.load_sprite("exit.png")
+    return world.create_entity(Interactable(TestAction()), Position(-250, 50), Sprite(img))
 
 
 def main() -> None:
@@ -49,34 +56,32 @@ def main() -> None:
     world = build_world(screen)
     player = create_player(world)
     create_enemy(world)
+    create_exit_button(world)
 
     running = True
     while running:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
-            elif event.type == pg.KEYDOWN:
-                set_velocity(event, player, world)
-            elif event.type == pg.KEYUP:
-                reset_velocity(event, player, world)
+            else:
+                handle_input(world, player, event)
         world.process()
         clock.tick(FPS)
 
 
-def set_velocity(event: pg.event.Event, player: int, world: esper.World) -> None:
-    speed = world.component_for_entity(player, Speed).value
-    if event.key == pg.K_LEFT:
-        world.component_for_entity(player, Velocity).x = -speed
-    elif event.key == pg.K_RIGHT:
-        world.component_for_entity(player, Velocity).x = speed
-    elif event.key == pg.K_UP:
-        world.component_for_entity(player, Velocity).y = -speed
-    elif event.key == pg.K_DOWN:
-        world.component_for_entity(player, Velocity).y = speed
-
-
-def reset_velocity(event: pg.event.Event, player: int, world: esper.World) -> None:
-    if event.key in (pg.K_LEFT, pg.K_RIGHT):
-        world.component_for_entity(player, Velocity).x = 0
-    if event.key in (pg.K_UP, pg.K_DOWN):
-        world.component_for_entity(player, Velocity).y = 0
+def handle_input(world: esper.World, player: int, event: pg.event.Event) -> None:
+    if event.type == pg.KEYDOWN:
+        if event.key == pg.K_e:
+            interaction.add_interact(world, player)
+            print("Trying to interact")
+        else:
+            speed = world.component_for_entity(player, Speed)
+            vel = world.component_for_entity(player, Velocity)
+            movement.set_velocity(event.key, speed, vel)
+    elif event.type == pg.KEYUP:
+        if event.key == pg.K_e:
+            interaction.remove_interact(world, player)
+            print("Stop trying to interact")
+        else:
+            vel = world.component_for_entity(player, Velocity)
+            movement.reset_velocity(event.key, vel)

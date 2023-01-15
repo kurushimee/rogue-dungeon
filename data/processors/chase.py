@@ -1,7 +1,7 @@
 import esper
 
 from data.components import Chase, Player, Position, Speed, Velocity
-from data.engine import Vector
+from data.scripts.engine import Vector
 
 
 class ChaseProcessor(esper.Processor):

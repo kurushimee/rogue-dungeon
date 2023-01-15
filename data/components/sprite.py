@@ -1,4 +1,5 @@
 from dataclasses import dataclass as component
+
 import pygame as pg
 
 
