@@ -40,9 +40,11 @@ def main() -> None:
 
     # Initialise and fill the world
     world = build_world(screen)
-    player = initialisation.create_player(world, WIDTH, HEIGHT)
-    initialisation.create_enemy(world)
+    initialisation.create_start_button(world)
+    initialisation.create_settings_button(world)
     exit_btn = initialisation.create_exit_button(world)
+    initialisation.create_enemy(world)
+    player = initialisation.create_player(world, WIDTH, HEIGHT)
 
     exit_int = world.component_for_entity(exit_btn, Interactable)
     exit = exit_int.action

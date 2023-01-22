@@ -8,6 +8,8 @@ from data.components.engine import Sprite
 from data.components.interaction import Interactable
 from data.components import Speed
 from data.scripts.actions.buttons import ExitAction
+from data.scripts.actions.buttons import SettingsAction
+from data.scripts.actions.buttons import StartAction
 
 
 def create_player(world: esper.World, width: int, height: int) -> int:
@@ -33,13 +35,23 @@ def create_enemy(world: esper.World) -> int:
     return world.create_entity(
         ChasePlayer(),
         Collider(collider_rect),
-        Position(-200, -150),
+        Position(-200, -300),
         Speed(1),
         Sprite(img),
         Velocity(0, 0),
     )
 
 
+def create_start_button(world: esper.World) -> int:
+    img = utils.load_sprite("buttons/start.png")
+    return world.create_entity(Interactable(StartAction()), Position(-100, -100), Sprite(img))
+
+
+def create_settings_button(world: esper.World) -> int:
+    img = utils.load_sprite("buttons/settings.png")
+    return world.create_entity(Interactable(SettingsAction()), Position(0, -100), Sprite(img))
+
+
 def create_exit_button(world: esper.World) -> int:
-    img = utils.load_sprite("exit.png")
-    return world.create_entity(Interactable(ExitAction()), Position(-250, 50), Sprite(img))
+    img = utils.load_sprite("buttons/exit.png")
+    return world.create_entity(Interactable(ExitAction()), Position(100, -100), Sprite(img))
