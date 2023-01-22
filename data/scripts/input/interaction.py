@@ -9,5 +9,5 @@ def add_interact(world: esper.World, player: int):
 
 
 def remove_interact(world: esper.World, player: int):
-    if world.has_component(player, Interact):
-        world.remove_component(player, Interact)
+    if interact := world.try_component(player, Interact):
+        interact.stopping = True

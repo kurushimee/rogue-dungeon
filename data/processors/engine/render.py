@@ -1,7 +1,9 @@
 import esper
 import pygame as pg
 
-from data.components import Player, Position, Sprite
+from data.components.characters import Player
+from data.components.engine.physics import Collider, Position
+from data.components.engine import Sprite
 
 
 class RenderProcessor(esper.Processor):
@@ -23,6 +25,9 @@ class RenderProcessor(esper.Processor):
 
         # Render each sprite
         for ent, sprite in self.world.get_component(Sprite):
+            if coll := self.world.try_component(ent, Collider):
+                coll.rect.x = sprite.x
+                coll.rect.y = sprite.y
             self.screen.blit(sprite.image, (sprite.x, sprite.y))
 
         # Update display

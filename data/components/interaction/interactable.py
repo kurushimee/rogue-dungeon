@@ -1,6 +1,6 @@
 from dataclasses import dataclass as component
 
-from data.scripts.gameplay.actions import Action
+from data.scripts.actions import Action
 
 
 @component

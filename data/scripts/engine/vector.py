@@ -14,13 +14,21 @@ class Vector:
 
     # Returns a normalized vector (vector with a length of 1)
     def normalized(self) -> Vector:
-        nx = self.x / self.magnitude()
-        ny = self.y / self.magnitude()
-        return Vector(nx, ny)
+        magnitude = self.magnitude()
+        if magnitude != 0.0:
+            nx = self.x / magnitude
+            ny = self.y / magnitude
+            return Vector(nx, ny)
+        return self
 
-    def set(self, new_x: float, new_y: float) -> None:
-        self.x = new_x
-        self.y = new_y
+    # Normalizes the vector
+    def normalize(self) -> None:
+        self.set(self.normalized())
+
+    # Sets new values for the vector
+    def set(self, new: Vector) -> None:
+        self.x = new.x
+        self.y = new.y
 
     # Returns a distance between two vectors
     @staticmethod
