@@ -5,7 +5,7 @@ from data.components.interaction import Interactable
 from data.processors.characters import ChasePlayerProcessor, InteractProcessor
 from data.processors.engine import RenderProcessor
 from data.processors import MovementProcessor
-from data.scripts.world import initialisation
+from data.scripts.world import init
 from data.scripts.input import player_input
 
 FPS = 60
@@ -38,15 +38,13 @@ def main() -> None:
     screen = pg.display.set_mode(size)
     clock = pg.time.Clock()
 
-    # Initialise and fill the world
+    # Initialise and setup the world
     world = build_world(screen)
-    initialisation.create_start_button(world)
-    initialisation.create_settings_button(world)
-    exit_btn = initialisation.create_exit_button(world)
-    initialisation.create_enemy(world)
-    player = initialisation.create_player(world, WIDTH, HEIGHT)
+    exit_ent, ply_ent = init.menu(world, WIDTH, HEIGHT)
 
-    exit_int = world.component_for_entity(exit_btn, Interactable)
+    # Get exit button's data for the running variable
+    # so that we can change it within the button
+    exit_int = world.component_for_entity(exit_ent, Interactable)
     exit = exit_int.action
     # Main game cycle
     while exit.running:
@@ -54,6 +52,6 @@ def main() -> None:
             if event.type == pg.QUIT:
                 exit.running = False
             else:
-                player_input.process(world, player, event)
+                player_input.process(world, ply_ent, event)
         world.process()
         clock.tick(FPS)

@@ -1,7 +1,10 @@
 import pygame as pg
 
 
-def load_sprite(path: str, size: int = 48) -> pg.Surface:
+def load_sprite(path: str) -> pg.Surface:
     img = pg.image.load(f"resources/graphics/{path}")
-    img = pg.transform.scale(img, (size, size))
-    return img
+    # Transforms sprites to be twice as big
+    # so that they aren't too small in-game
+    x = img.get_width() * 2
+    y = img.get_height() * 2
+    return pg.transform.scale(img, (x, y))
