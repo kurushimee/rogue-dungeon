@@ -14,11 +14,12 @@ from data.scripts.engine import utils
 def create(world: esper.World) -> int:
     img = utils.load_sprite("characters/enemies/enemy.png")
 
-    collider_rect = pg.Rect(0, 0, img.get_width(), img.get_height())
+    x, y = -200, -300
+    collider_rect = pg.Rect(x, y, img.get_width(), img.get_height())
     return world.create_entity(
         ChasePlayer(),
         Collider(collider_rect),
-        Position(-200, -300),
+        Position(x, y),
         Velocity(),
         Sprite(img),
         Speed(1),
