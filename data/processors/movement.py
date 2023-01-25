@@ -17,13 +17,13 @@ class MovementProcessor(esper.Processor):
             # and correct if colliding
             pos.x += vel.x * speed
             if coll:
-                coll.rect.x = pos.x
-                check = partial(self.check_x, pos, vel, coll.rect)
+                coll.rect.x = pos.x + coll.offset.x
+                check = partial(self.check_x, pos, vel, coll)
                 self.check_collision(ent, coll, check)
             pos.y += vel.y * speed
             if coll:
-                coll.rect.y = pos.y
-                check = partial(self.check_y, pos, vel, coll.rect)
+                coll.rect.y = pos.y + coll.offset.y
+                check = partial(self.check_y, pos, vel, coll)
                 self.check_collision(ent, coll, check)
 
     def check_collision(self, ent: int, coll: Collider, check: Callable):
@@ -32,19 +32,21 @@ class MovementProcessor(esper.Processor):
                 check(other_coll.rect)
 
     def check_x(
-        self, pos: Position, vel: Velocity, coll: pg.Rect, other_coll: pg.Rect
+        self, pos: Position, vel: Velocity, coll: Collider, other_coll: pg.Rect
     ) -> None:
         if vel.x < 0:
             pos.x = other_coll.right
         if vel.x > 0:
-            pos.x = other_coll.left - coll.width
-        coll.x = pos.x
+            pos.x = other_coll.left - coll.rect.width
+        pos.x -= coll.offset.x
+        coll.rect.x = pos.x + coll.offset.x
 
     def check_y(
-        self, pos: Position, vel: Velocity, coll: pg.Rect, other_coll: pg.Rect
+        self, pos: Position, vel: Velocity, coll: Collider, other_coll: pg.Rect
     ) -> None:
         if vel.y > 0:
-            pos.y = other_coll.top - coll.height
+            pos.y = other_coll.top - coll.rect.height
         if vel.y < 0:
             pos.y = other_coll.bottom
-        coll.y = pos.y
+        pos.y -= coll.offset.y
+        coll.rect.y = pos.y + coll.offset.y

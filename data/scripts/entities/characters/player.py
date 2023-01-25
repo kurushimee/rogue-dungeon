@@ -2,12 +2,10 @@ import esper
 import pygame as pg
 
 from data.components.characters import Player
-from data.components.engine.physics import Collider
-from data.components.engine.physics import Position
-from data.components.engine.physics import Velocity
+from data.components.engine.physics import Collider, Position, Velocity
 from data.components.engine import Sprite
 from data.components import Speed
-from data.scripts.engine import utils
+from data.scripts.engine import utils, Vector
 
 
 # Creates player entity
@@ -20,11 +18,13 @@ def create(screen_width: int, screen_height: int, world: esper.World) -> int:
 
     x, y = 0, 0
     width = img.get_width()
-    height = img.get_height()
-    collider_rect = pg.Rect(x, y, width, height)
+    # Halve the height due to it being a humanoid sprite
+    height = img.get_height() // 2
+    offset_y = y + height
+    collider_rect = pg.Rect(x, offset_y, width, height)
     return world.create_entity(
         Player(),
-        Collider(collider_rect),
+        Collider(collider_rect, offset=Vector(0, offset_y)),
         Position(x, y),
         Velocity(),
         Sprite(img, left, top),
