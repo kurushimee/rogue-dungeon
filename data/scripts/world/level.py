@@ -40,11 +40,8 @@ def build(world: esper.World, level: list) -> None:
             elif level[i][j] == ".":
                 if level[i + 1][j] == "@":
                     portal.create(world, x, y)
-                elif (
-                    level[i + 1][j] == "."
-                    and level[i - 1][j] == "."
-                    and level[i][j + 1] == "."
-                    and level[i][j - 1] == "."
+                elif (level[i + 1][j] == "." and level[i - 1][j] == ".") or (
+                    level[i][j + 1] == "." and level[i][j - 1] == "."
                 ):
                     fill.create(world, x, y)
 
