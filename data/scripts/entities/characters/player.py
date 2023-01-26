@@ -4,7 +4,7 @@ import pygame as pg
 from data.components.characters import Player
 from data.components.engine.physics import Collider, Position, Velocity
 from data.components.engine import Sprite
-from data.components import Speed
+from data.components import Health, Speed
 from data.scripts.engine import utils, Vector
 
 
@@ -28,5 +28,6 @@ def create(screen_width: int, screen_height: int, world: esper.World) -> int:
         Position(x, y),
         Velocity(),
         Sprite(img, left, top),
+        Health(100),
         Speed(3),
     )

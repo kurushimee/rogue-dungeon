@@ -6,7 +6,7 @@ from data.components.engine.physics import Collider
 from data.components.engine.physics import Position
 from data.components.engine.physics import Velocity
 from data.components.engine import Sprite
-from data.components import Speed
+from data.components import Health, Speed
 from data.scripts.engine import utils
 
 weight = 0.1
@@ -23,5 +23,6 @@ def create(world: esper.World, x: int, y: int) -> int:
         Position(x, y),
         Velocity(),
         Sprite(img),
+        Health(50),
         Speed(1),
     )

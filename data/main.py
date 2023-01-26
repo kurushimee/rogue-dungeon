@@ -4,6 +4,7 @@ from data.components.interaction import Interactable
 
 from data.processors.characters import ChasePlayerProcessor, InteractProcessor
 from data.processors.engine import RenderProcessor
+from data.processors.world import PortalProcessor
 from data.processors import MovementProcessor
 from data.scripts.world import menu
 from data.scripts.input import player_input
@@ -17,8 +18,9 @@ def add_processors(world: esper.World, screen: pg.Surface) -> None:
     processors = (
         ChasePlayerProcessor(),
         InteractProcessor(),
-        MovementProcessor(),
         RenderProcessor(screen, (11, 7, 28)),
+        PortalProcessor(),
+        MovementProcessor(),
     )
     for processor in processors:
         world.add_processor(processor)
