@@ -1,0 +1,58 @@
+{
+	"ECS Entity Loop": {
+		"scope": "python",
+		"prefix": "ecsfor",
+		"body": [
+			"for ent, $1 in self.world.get_component($2):",
+			"    pass$0"
+		],
+		"description": "Creates entity loop placeholder for esper"
+	},
+	"ECS Entities Loop": {
+		"scope": "python",
+		"prefix": "ecsfors",
+		"body": [
+			"for ent, ($1) in self.world.get_components($2):",
+			"    pass$0"
+		],
+		"description": "Creates entities loop placeholder for esper"
+	},
+	"ECS Processor": {
+		"scope": "python",
+		"prefix": "ecsproc",
+		"body": [
+			"import esper",
+			"",
+			"",
+			"class $1Processor(esper.Processor):",
+			"    def process(self):",
+			"        pass$0",
+			""
+		],
+		"description": "Creates a processor placeholder for esper"
+	},
+	"ECS Component": {
+		"scope": "python",
+		"prefix": "ecscomp",
+		"body": [
+			"from dataclasses import dataclass as component",
+			"",
+			"",
+			"@component",
+			"class $1:",
+			"    pass$0",
+			""
+		],
+		"description": "Creates a component placeholder for esper"
+	},
+	"ECS Tag": {
+		"scope": "python",
+		"prefix": "ecstag",
+		"body": [
+			"class $1:",
+			"    pass$0",
+			""
+		],
+		"description": "Creates a tag placeholder for esper"
+	}
+}

@@ -5,7 +5,7 @@ from data.components.interaction import Interactable
 from data.processors.characters import ChasePlayerProcessor, InteractProcessor
 from data.processors.engine import RenderProcessor
 from data.processors import MovementProcessor
-from data.scripts.world import init
+from data.scripts.world import menu
 from data.scripts.input import player_input
 
 FPS = 60
@@ -40,7 +40,7 @@ def main() -> None:
 
     # Initialise and setup the world
     world = build_world(screen)
-    exit_ent, ply_ent = init.menu(world, WIDTH, HEIGHT)
+    exit_ent, ply_ent = menu.init(world, WIDTH, HEIGHT)
 
     # Get exit button's data for the running variable
     # so that we can change it within the button

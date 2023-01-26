@@ -9,12 +9,13 @@ from data.components.engine import Sprite
 from data.components import Speed
 from data.scripts.engine import utils
 
+weight = 0.1
+
 
 # Creates zombie entity
-def create(world: esper.World) -> int:
-    img = utils.load_sprite("characters/enemies/enemy.png")
+def create(world: esper.World, x: int, y: int) -> int:
+    img = utils.load_sprite("characters/enemies/zombie.png")
 
-    x, y = -200, -300
     collider_rect = pg.Rect(x, y, img.get_width(), img.get_height())
     return world.create_entity(
         ChasePlayer(),
