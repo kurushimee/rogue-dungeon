@@ -1,3 +1,4 @@
+from functools import partial
 import esper
 import pygame as pg
 from data.components.interaction import Interactable
@@ -48,12 +49,14 @@ def main() -> None:
     # so that we can change it within the button
     exit_int = world.component_for_entity(exit_ent, Interactable)
     exit = exit_int.action
+
     # Main game cycle
+    player_input_process = partial(player_input.process, world, ply_ent)
     while exit.running:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 exit.running = False
             else:
-                player_input.process(world, ply_ent, event)
+                player_input_process(event)
         world.process()
         clock.tick(FPS)
