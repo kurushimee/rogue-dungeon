@@ -17,14 +17,17 @@ def create(screen_width: int, screen_height: int, world: esper.World) -> int:
     top = screen_height // 2 - img.get_height() // 2
 
     x, y = 0, 0
-    width = img.get_width()
+    width = img.get_width() - 8
     # Halve the height due to it being a humanoid sprite
     height = img.get_height() // 2
+    # Horizontal offset is halved to position collider in the middle
+    offset_x = x + (img.get_width() - width) // 2
+    # While vertical collider sticks to bottom
     offset_y = y + height
-    collider_rect = pg.Rect(x, offset_y, width, height)
+    collider_rect = pg.Rect(offset_x, offset_y, width, height)
     return world.create_entity(
         Player(),
-        Collider(collider_rect, offset=Vector(0, offset_y)),
+        Collider(collider_rect, offset=Vector(offset_x, offset_y)),
         Position(x, y),
         Velocity(),
         Sprite(img, left, top),
