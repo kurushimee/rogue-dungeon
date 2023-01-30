@@ -9,5 +9,5 @@ class ExitAction(Action):
         # be able to stop the game from a button
         self.running = True
 
-    def stop(self, world: esper.World) -> None:
+    def stop(self, world: esper.World, ent: int) -> None:
         self.running = False

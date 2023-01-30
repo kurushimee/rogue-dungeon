@@ -1,7 +1,4 @@
-from dataclasses import dataclass as component
-
-
-@component
 class Health:
-    max: int
-    current: int = max
+    def __init__(self, max_health: int, curr_health: int = None):
+        self.max = max_health
+        self.current = curr_health or max_health

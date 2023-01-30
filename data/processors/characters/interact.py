@@ -13,11 +13,12 @@ class InteractProcessor(esper.Processor):
         ):
             for ent, (interactable, pos) in self.world.get_components(Interactable, Position):
                 if Vector.distance(pos, ply_pos) <= interact.range:
-                    # Call action.stop() when unpressing the button, otherwise call action.act()
-                    # Remove Interact component after calling action.stop()
-                    # in order to stop interacting
                     if interact.stopping:
-                        interactable.action.stop(self.world)
-                        self.world.remove_component(ply_ent, Interact)
+                        # Call action.stop() on key release
+                        interactable.action.stop(self.world, ply_ent)
+                        # Remove Interact component in order to stop interacting
+                        if self.world.has_component(ply_ent, Interact):
+                            self.world.remove_component(ply_ent, Interact)
                     else:
-                        interactable.action.act(self.world)
+                        # Call action.start() on key press
+                        interactable.action.start(self.world, ply_ent)
