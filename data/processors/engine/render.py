@@ -33,7 +33,7 @@ class RenderProcessor(esper.Processor):
                     self.set_relative_position(ply_pos, pos, ply_sprite, sprite)
                     self.blit_sprite(sprite)
 
-    # Edits sprites position based based on it's position relative to player
+    # Edits sprites position based based on entity's position relative to player
     # and player sprite's position (in the middle of the screen)
     def set_relative_position(
         self, ply_pos: Position, pos: Position, ply_sprite: Sprite, sprite: Sprite
