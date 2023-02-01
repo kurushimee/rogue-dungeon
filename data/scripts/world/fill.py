@@ -12,7 +12,7 @@ def create(world: esper.World, x: int, y: int):
     loot = (healthpack,)
     loot_weights = [x.weight for x in loot]
 
-    if random.random() <= 0.005:
+    if random.random() <= 0.01:
         # Spawn a random enemy
         random.choices(enemies, enemy_weights, k=1)[0].create(world, x, y)
     elif random.random() <= 0.01:
