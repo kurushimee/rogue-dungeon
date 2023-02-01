@@ -1,6 +1,7 @@
 import esper
 import pygame as pg
 
+from data.components.characters.attack import Attack
 from data.components.characters import ChasePlayer, Enemy
 from data.components.engine.physics import Collider, Position, Velocity
 from data.components.engine import Sprite
@@ -16,6 +17,7 @@ def create(world: esper.World, x: int, y: int) -> int:
 
     collider_rect = pg.Rect(x, y, img.get_width(), img.get_height())
     return world.create_entity(
+        Attack(15, 50, 2),
         ChasePlayer(),
         Enemy(),
         Collider(collider_rect),

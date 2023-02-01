@@ -3,8 +3,8 @@ import esper
 import pygame as pg
 from data.components.interaction import Interactable
 
-from data.processors.characters import ChasePlayerProcessor, InteractProcessor
-from data.processors.engine import RenderProcessor
+from data.processors.characters import AttackProcessor, ChasePlayerProcessor, InteractProcessor
+from data.processors.engine import CooldownProcessor, RenderProcessor
 from data.processors.world import PortalProcessor
 from data.processors import MovementProcessor
 from data.scripts.world import menu
@@ -17,8 +17,10 @@ HEIGHT = 540
 
 def add_processors(world: esper.World, screen: pg.Surface) -> None:
     processors = (
+        AttackProcessor(),
         ChasePlayerProcessor(),
         InteractProcessor(),
+        CooldownProcessor(),
         RenderProcessor(screen, (11, 7, 28)),
         PortalProcessor(),
         MovementProcessor(),
