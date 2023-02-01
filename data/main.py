@@ -12,7 +12,7 @@ from data.scripts.input import player_input
 
 FPS = 60
 WIDTH = 960
-HEIGHT = 540
+HEIGHT = 768
 
 
 def add_processors(world: esper.World, screen: pg.Surface) -> None:

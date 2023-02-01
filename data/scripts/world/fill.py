@@ -1,8 +1,8 @@
 import esper
 import random
 
-from data.scripts.entities.items import healthpack
 from data.scripts.entities.characters.enemies import zombie
+from data.scripts.entities.items import healthpack
 
 
 def create(world: esper.World, x: int, y: int):
@@ -12,11 +12,9 @@ def create(world: esper.World, x: int, y: int):
     loot = (healthpack,)
     loot_weights = [x.weight for x in loot]
 
-    # Try to spawn something in the cell
-    if random.random() < 0.1:
-        if random.random() < 0.1:
-            # Spawn a random enemy
-            random.choices(enemies, enemy_weights, k=1)[0].create(world, x, y)
-        elif random.random() < 0.1:
-            # Spawn a random item
-            random.choices(loot, loot_weights, k=1)[0].create(world, x, y)
+    if random.random() <= 0.005:
+        # Spawn a random enemy
+        random.choices(enemies, enemy_weights, k=1)[0].create(world, x, y)
+    elif random.random() <= 0.01:
+        # Spawn a random item
+        random.choices(loot, loot_weights, k=1)[0].create(world, x, y)

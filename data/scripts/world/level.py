@@ -7,8 +7,7 @@ from data.components.engine.physics import Position
 from data.components.engine.sprite import Sprite
 from data.scripts.entities.world import portal, wall
 from data.scripts.world import fill
-
-SPRITE_SIZE = 48
+from data.scripts.engine import utils
 
 
 # Loads level from a .txt file
@@ -24,25 +23,26 @@ def load(filename: str) -> list:
 def build(world: esper.World, level: list) -> None:
     for i in range(len(level)):
         for j in range(len(level[i])):
-            x = j * SPRITE_SIZE
-            y = i * SPRITE_SIZE
+            x = j * utils.SPRITE_SIZE
+            y = i * utils.SPRITE_SIZE
             if level[i][j] == "#":
                 # Subtracting SPRITE_SIZE from the Y coordinate is done because
                 # the wall sprite is double the size in height
-                wall.create(world, x, y - SPRITE_SIZE)
+                wall.create(world, x, y - utils.SPRITE_SIZE)
             elif level[i][j] == "@":
                 for ent, (ply, pos) in world.get_components(Player, Position):
                     # Teleports player to the specified cell
                     pos.x = x
                     pos.y = y
             elif level[i][j] == "$":
+                # Creates exit portal
                 portal.create(world, x, y, exit=True)
             elif level[i][j] == ".":
                 if level[i + 1][j] == "@":
+                    # Creates the enter portal if player is right below
                     portal.create(world, x, y)
-                elif (level[i + 1][j] == "." and level[i - 1][j] == ".") or (
-                    level[i][j + 1] == "." and level[i][j - 1] == "."
-                ):
+                else:
+                    # Tries to populate with enemies or loot
                     fill.create(world, x, y)
 
 

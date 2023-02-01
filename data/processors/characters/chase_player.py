@@ -22,3 +22,6 @@ class ChasePlayerProcessor(esper.Processor):
                     # Sets velocity vector in the direction of the player
                     new_vel = (ply_pos - pos).normalized()
                     vel.set(new_vel)
+                else:
+                    # Stop the enemy if cooling down after attack
+                    vel.x = vel.y = 0

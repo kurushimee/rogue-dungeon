@@ -14,7 +14,7 @@ def create(world: esper.World, x: int, y: int) -> int:
     img = utils.load_sprite("items/healthpack.png")
 
     ent = world.create_entity(
-        Position(x, x),
+        Position(x, y),
         Sprite(img),
         Interactable(HealthpackAction()),
     )

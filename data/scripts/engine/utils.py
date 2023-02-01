@@ -1,5 +1,7 @@
 import pygame as pg
 
+SPRITE_SIZE = 48
+
 
 def load_sprite(path: str) -> pg.Surface:
     img = pg.image.load(f"resources/graphics/{path}")

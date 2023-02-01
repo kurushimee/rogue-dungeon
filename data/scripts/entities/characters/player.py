@@ -27,7 +27,7 @@ def create(screen_width: int, screen_height: int, world: esper.World) -> int:
     offset_y = y + height
     collider_rect = pg.Rect(offset_x, offset_y, width, height)
     return world.create_entity(
-        Attack(15, 50, 1.5),
+        Attack(30, utils.SPRITE_SIZE * 2, 1.5),
         Player(),
         Collider(collider_rect, offset=Vector(offset_x, offset_y)),
         Position(x, y),

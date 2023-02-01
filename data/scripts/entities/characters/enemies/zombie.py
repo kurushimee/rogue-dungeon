@@ -17,7 +17,7 @@ def create(world: esper.World, x: int, y: int) -> int:
 
     collider_rect = pg.Rect(x, y, img.get_width(), img.get_height())
     return world.create_entity(
-        Attack(15, 50, 2),
+        Attack(15, utils.SPRITE_SIZE * 1.5, 2),
         ChasePlayer(),
         Enemy(),
         Collider(collider_rect),
