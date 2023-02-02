@@ -1,13 +1,12 @@
+import esper
 import os
 import random
-import esper
 
 from data.components.characters import Player
 from data.components.engine.physics import Position
-from data.components.engine.sprite import Sprite
+from data.scripts.engine.utils import SPRITE_SIZE
 from data.scripts.entities.world import portal, wall
-from data.scripts.world import fill
-from data.scripts.engine import utils
+from data.scripts.world import fill, reset
 
 
 # Loads level from a .txt file
@@ -23,12 +22,12 @@ def load(filename: str) -> list:
 def build(world: esper.World, level: list) -> None:
     for i in range(len(level)):
         for j in range(len(level[i])):
-            x = j * utils.SPRITE_SIZE
-            y = i * utils.SPRITE_SIZE
+            x = j * SPRITE_SIZE
+            y = i * SPRITE_SIZE
             if level[i][j] == "#":
                 # Subtracting SPRITE_SIZE from the Y coordinate is done because
                 # the wall sprite is double the size in height
-                wall.create(world, x, y - utils.SPRITE_SIZE)
+                wall.create(world, x, y - SPRITE_SIZE)
             elif level[i][j] == "@":
                 for ent, (ply, pos) in world.get_components(Player, Position):
                     # Teleports player to the specified cell
@@ -50,10 +49,5 @@ def build(world: esper.World, level: list) -> None:
 def init(world: esper.World):
     levels = os.listdir("resources/levels")
     level = load(random.choice(levels))
-
-    # Save player and remove everything else
-    for ent, _ in world.get_component(Sprite):
-        if not world.has_component(ent, Player):
-            world.delete_entity(ent)
-
+    reset.clear_world(world)
     build(world, level)

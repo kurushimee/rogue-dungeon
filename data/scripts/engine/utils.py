@@ -1,5 +1,6 @@
 import pygame as pg
 
+FPS = 60
 SPRITE_SIZE = 48
 
 

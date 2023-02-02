@@ -1,13 +1,11 @@
 import esper
+from data.components.engine.game_manager import GameManager
 
 from data.scripts.actions import Action
 
 
 class ExitAction(Action):
-    def __init__(self) -> None:
-        # Stores the running variable in order to
-        # be able to stop the game from a button
-        self.running = True
-
+    # Stops the game on interaction
     def stop(self, world: esper.World, ent: int) -> None:
-        self.running = False
+        for ent, manager in world.get_component(GameManager):
+            manager.running = False

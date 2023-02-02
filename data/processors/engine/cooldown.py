@@ -1,8 +1,7 @@
 import esper
 
 from data.components.engine import Cooldown
-
-FPS = 60
+from data.scripts.engine.utils import FPS
 
 
 class CooldownProcessor(esper.Processor):

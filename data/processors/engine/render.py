@@ -17,29 +17,27 @@ class RenderProcessor(esper.Processor):
         self.screen.fill(self.clear_color)
         # Render each sprite
         self.render()
-        # Update the screen
-        pg.display.flip()
 
     # Renders each sprite, correcting their relative on-screen position
     def render(self):
-        for ply_ent, (ply_sprite, ply_pos, ply) in self.world.get_components(
+        for player_ent, (player_sprite, player_pos, player) in self.world.get_components(
             Sprite, Position, Player
         ):
             # Render player
-            self.screen.blit(ply_sprite.image, (ply_sprite.x, ply_sprite.y))
+            self.screen.blit(player_sprite.image, (player_sprite.x, player_sprite.y))
 
-            for ent, (pos, sprite) in self.world.get_component(Position, Sprite):
-                if ent != ply_ent:
-                    self.set_relative_position(ply_pos, pos, ply_sprite, sprite)
+            for ent, (pos, sprite) in self.world.get_components(Position, Sprite):
+                if ent != player_ent:
+                    self.set_relative_position(player_pos, pos, player_sprite, sprite)
                     self.blit_sprite(sprite)
 
     # Edits sprites position based based on entity's position relative to player
     # and player sprite's position (in the middle of the screen)
     def set_relative_position(
-        self, ply_pos: Position, pos: Position, ply_sprite: Sprite, sprite: Sprite
+        self, player_pos: Position, pos: Position, player_sprite: Sprite, sprite: Sprite
     ) -> None:
-        sprite.x = ply_sprite.x + pos.x - ply_pos.x
-        sprite.y = ply_sprite.y + pos.y - ply_pos.y
+        sprite.x = player_sprite.x + pos.x - player_pos.x
+        sprite.y = player_sprite.y + pos.y - player_pos.y
 
     # Blits the sprite to the screen if it's in bounds of it
     def blit_sprite(self, sprite: Sprite) -> None:
