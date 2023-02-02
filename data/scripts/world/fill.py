@@ -14,8 +14,7 @@ def create(world: esper.World, x: int, y: int):
 
     if random.random() <= 0.01:
         # Spawn a random enemy
-        # random.choices(enemies, enemy_weights, k=1)[0].create(world, x, y)
-        pass
+        random.choices(enemies, enemy_weights, k=1)[0].create(world, x, y)
     elif random.random() <= 0.01:
         # Spawn a random item
         random.choices(loot, loot_weights, k=1)[0].create(world, x, y)
